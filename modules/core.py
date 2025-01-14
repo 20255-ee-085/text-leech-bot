@@ -217,4 +217,16 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     os.remove(f"{filename}.jpg")
     await reply.delete (True)
     
+@Client.on_message(filters.command("setdestination") & filters.private)
+async def set_upload_destination_channel(bot, message):
+    # Extract the channel ID from the message
+    if len(message.command) != 2:
+        await message.reply_text("Usage: /setdestination <channel_id>")
+        return
+    
+    channel_id = message.command[1]
+
+    # Save the channel ID
+    os.environ["UPLOAD_DESTINATION_CHANNEL"] = channel_id
+    await message.reply_text(f"Destination channel set to: {channel_id}")
 
